@@ -1,8 +1,11 @@
+#include <Arduino.h>
+
+
 const int buzzer = 2; //buzzer to arduino pin 9
 const int tip = 8;
 const int ring2 = 7;
 
-const int freq = 600;
+const int freq = 420;
 
 
 // Here's a breakdown of the timing elements:
@@ -26,6 +29,18 @@ int lastTime = 0;
 int currentTime = 0;
 
 int whiteSpaceState = 2;
+
+void sendDah()
+{
+  tone(buzzer, freq, dahLength); 
+  delay(dahLength);
+}
+
+void sendDit()
+{
+  tone(buzzer, freq, ditLength);
+  delay(ditLength);
+}
 
 void setup()
 {
@@ -89,14 +104,3 @@ void loop()
   
 }
 
-void sendDah()
-{
-  tone(buzzer, freq, dahLength); 
-  delay(dahLength);
-}
-
-void sendDit()
-{
-  tone(buzzer, freq, ditLength);
-  delay(ditLength);
-}

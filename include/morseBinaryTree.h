@@ -9,7 +9,7 @@ class MorseBinaryTree
     MorseBinaryTree();
     ~MorseBinaryTree(){}
 
-    char parseMorseCode(const int path[5]);
+    char parseMorseCode(const char path[]);
 
     int printTree();
 

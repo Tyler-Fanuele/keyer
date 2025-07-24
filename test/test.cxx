@@ -6,9 +6,10 @@ int main (int argc, char** argv)
     MorseBinaryTree tree;
     tree.printTree();
 
-    int path[5] = {0, 1, 0, 1, 0}; // Example path for "U"
+    // Example path for "U": "..-" (dot, dot, dash)
+    char path[6] = {'.', '.', '-', '\0'};
     char result = tree.parseMorseCode(path);
-    std::cout << "U"
+    std::cout << "Decoded: " << result << std::endl;
 
     return 0;
 }

@@ -1,21 +1,21 @@
-#include "morseBinaryTree.h"
-#include <iostream> 
+#include <morseBinaryTree.h>
 
 MorseBinaryTree::MorseBinaryTree()
 {
     
 }
 
-char MorseBinaryTree::parseMorseCode(const int path[5])
+
+char MorseBinaryTree::parseMorseCode(const char path[])
 {
     int index = 0; // Start at the root of the tree
-    for (int i = 0; i < 5; ++i)
+    for (int i = 0; path[i] != '\0'; ++i)
     {
-        if (path[i] == 0)
+        if (path[i] == '.')
         {
             index = 2 * index + 1; // Go left (dit)
         }
-        else if (path[i] == 1)
+        else if (path[i] == '-')
         {
             index = 2 * index + 2; // Go right (dah)
         }
@@ -33,18 +33,19 @@ char MorseBinaryTree::parseMorseCode(const int path[5])
 
 int MorseBinaryTree::printTree()
 {
-    std::cout << "\n";
+    //std::cout << "\n";
 
     for (int i = 0; i < TREESIZE; i++)
     {
         if (_tree[i] != '\0')
         {
-            std::cout << _tree[i];
+            //std::cout << _tree[i];
         }
         else
         {
-            std::cout << "-";
+            //std::cout << "-";
         }
     }
+    //std::cout << "\n";
     return 0;
 }
