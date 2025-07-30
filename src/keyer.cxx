@@ -1,5 +1,5 @@
 #include <Arduino.h>
-
+#include <morseTranslater.h>
 
 const int buzzer = 2; //buzzer to arduino pin 9
 const int tip = 8;
@@ -16,7 +16,7 @@ const int freq = 420;
 // Inter-character space: The space between letters within a word is three time units. 
 // Inter-word space: The space between words is seven time units
 
-const int WPM = 20;
+const int WPM = 17;
 const int ditLength = 60000 / (WPM * 50);
 const int dahLength = ditLength * 3;
 
@@ -29,6 +29,8 @@ int lastTime = 0;
 int currentTime = 0;
 
 int whiteSpaceState = 2;
+
+MorseTranslater translater;
 
 void sendDah()
 {
@@ -59,12 +61,13 @@ void loop()
     currentTime = millis();
     if (whiteSpaceState == 0 && currentTime - lastTime >= dahLength)
     {
-      Serial.print(" ");
+      const char currentChar = translater.translate();
+      Serial.print(currentChar);
       whiteSpaceState = 1;
     }
     if ( whiteSpaceState == 1 && currentTime - lastTime >= (dahLength + dahLength + ditLength))
     {
-      Serial.print(" | ");
+      Serial.print(" ");
       whiteSpaceState = 2;
     }
     
@@ -89,13 +92,15 @@ void loop()
   if (tipState == LOW && state != 1)
   {
     state = 1;
-    Serial.print(".");
+    translater.addDot();
+    //Serial.print(".");
     sendDit();
   }
   else if (ring2State == LOW && state != 2)
   {
     state = 2;
-    Serial.print("-");
+    translater.addDash();
+    //Serial.print("-");
     sendDah();
   }
 

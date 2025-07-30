@@ -9,13 +9,13 @@ class MorseBinaryTree
     MorseBinaryTree();
     ~MorseBinaryTree(){}
 
-    char parseMorseCode(const char path[]);
+    static char parseMorseCode(const char path[]);
 
     int printTree();
 
     private:
 
-    const char _tree[63] = {
+    inline constexpr static const char _tree[63] = {
     '\0', 'E', 'T', 'I', 'A', 'N', 'M', 'S', 
     'U', 'R', 'W', 'D', 'K', 'G', 'O', 'H', 
     'V', 'F', '\0', 'L', '\0', 'P', 'J', 'B', 
