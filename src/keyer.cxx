@@ -28,12 +28,13 @@ void loop()
     currentTime = millis();
     if (whiteSpaceState == 0 && currentTime - lastTime >= longSignalLengthMS)
     {
-      Serial.print(" ");
+      const char currentChar = translater.translate();
+      Serial.print(currentChar);
       whiteSpaceState = 1;
     }
     if ( whiteSpaceState == 1 && currentTime - lastTime >= (longSignalLengthMS + longSignalLengthMS + shortSignalLengthMS))
     {
-      Serial.print(" | ");
+      Serial.print(" ");
       whiteSpaceState = 2;
     }
     
