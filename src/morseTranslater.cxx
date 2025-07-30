@@ -34,3 +34,5 @@ char MorseTranslater::translate() {
     clearArray();
     return temp;
 }
+
+MorseTranslater Translator;

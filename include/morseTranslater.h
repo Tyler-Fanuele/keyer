@@ -24,3 +24,5 @@ private:
     char _currentMorseArray[ARRAYSIZE] = {'\0', '\0', '\0', '\0', '\0', '\0'}; // Array to hold current morse code sequence
     unsigned int _currentIndex = 0;
 };
+
+extern MorseTranslater Translator;

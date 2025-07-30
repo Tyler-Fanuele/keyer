@@ -3,6 +3,7 @@
 #include <pinsLocations.h>
 
 #include <speekerKeyPlayer.h>
+#include <morseTranslater.h>
 
 int tipState = 0;
 int ring2State = 0;
@@ -21,14 +22,13 @@ void setup()
 
 void loop()
 {
-
   // Poll for pins so we wont just continue to delay dit length
   // Makes more responsive after time without user input
   do {
     currentTime = millis();
     if (whiteSpaceState == 0 && currentTime - lastTime >= longSignalLengthMS)
     {
-      const char currentChar = translater.translate();
+      const char currentChar = Translator.translate();
       Serial.print(currentChar);
       whiteSpaceState = 1;
     }
@@ -59,14 +59,16 @@ void loop()
   if (tipState == LOW && state != 1)
   {
     state = 1;
-    Serial.print(".");
+    
     SpeekerPlayer.sendShort();
+    Translator.addDot();
   }
   else if (ring2State == LOW && state != 2)
   {
     state = 2;
-    Serial.print("-");
+    
     SpeekerPlayer.sendLong();
+    Translator.addDash();
   }
 
   lastTime = millis();
