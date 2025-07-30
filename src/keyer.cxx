@@ -1,24 +1,8 @@
 #include <Arduino.h>
+#include <keyerSettings.h>
+#include <pinsLocations.h>
 
-
-const int buzzer = 2; //buzzer to arduino pin 9
-const int tip = 8;
-const int ring2 = 7;
-
-const int freq = 420;
-
-
-// Here's a breakdown of the timing elements:
-
-// Dot: The shortest unit of Morse code, lasting for one time unit. 
-// Dash: Three times the length of a dot, or three time units. 
-// Intra-character space: The space between the dots and dashes within a single character is one time unit, according to RoboBlocky. 
-// Inter-character space: The space between letters within a word is three time units. 
-// Inter-word space: The space between words is seven time units
-
-const int WPM = 20;
-const int ditLength = 60000 / (WPM * 50);
-const int dahLength = ditLength * 3;
+#include <speekerKeyPlayer.h>
 
 int tipState = 0;
 int ring2State = 0;
@@ -30,24 +14,9 @@ int currentTime = 0;
 
 int whiteSpaceState = 2;
 
-void sendDah()
-{
-  tone(buzzer, freq, dahLength); 
-  delay(dahLength);
-}
-
-void sendDit()
-{
-  tone(buzzer, freq, ditLength);
-  delay(ditLength);
-}
-
 void setup()
 {
   Serial.begin(9600); // open the serial port at 9600 bps:
-  pinMode(buzzer, OUTPUT); // Set buzzer - pin 9 as an output
-  pinMode(tip, INPUT_PULLUP);
-  pinMode(ring2, INPUT_PULLUP);
 }
 
 void loop()
@@ -57,12 +26,12 @@ void loop()
   // Makes more responsive after time without user input
   do {
     currentTime = millis();
-    if (whiteSpaceState == 0 && currentTime - lastTime >= dahLength)
+    if (whiteSpaceState == 0 && currentTime - lastTime >= longSignalLengthMS)
     {
       Serial.print(" ");
       whiteSpaceState = 1;
     }
-    if ( whiteSpaceState == 1 && currentTime - lastTime >= (dahLength + dahLength + ditLength))
+    if ( whiteSpaceState == 1 && currentTime - lastTime >= (longSignalLengthMS + longSignalLengthMS + shortSignalLengthMS))
     {
       Serial.print(" | ");
       whiteSpaceState = 2;
@@ -90,17 +59,17 @@ void loop()
   {
     state = 1;
     Serial.print(".");
-    sendDit();
+    SpeekerPlayer.sendShort();
   }
   else if (ring2State == LOW && state != 2)
   {
     state = 2;
     Serial.print("-");
-    sendDah();
+    SpeekerPlayer.sendLong();
   }
 
   lastTime = millis();
-  delay(ditLength);
+  delay(shortSignalLengthMS);
   
 }
 
